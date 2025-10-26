@@ -9,14 +9,46 @@ import CheckoutPage from './pages/CheckoutPage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import Footer from './components/Footer';
+import { useEffect, useState } from 'react';
+import BookLoader from './components/ui/bookLoader';
 
 const queryClient = new QueryClient();
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [showContent, setShowContent] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowContent(true);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 600); // Wait for crossfade to complete
+    }, 2000);
+  }, []);
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <div className="min-h-screen bg-background flex flex-col">
+    <>
+      {/* Loader */}
+      {isLoading && (
+        <div 
+          className={`fixed inset-0 flex items-center justify-center h-screen bg-background z-50 transition-opacity duration-600 ease-in-out ${
+            showContent ? 'opacity-0' : 'opacity-100'
+          }`}
+        >
+          <BookLoader />
+        </div>
+      )}
+
+      {/* Main App */}
+      <div 
+        className={`transition-opacity duration-600 ease-in-out ${
+          showContent ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        <QueryClientProvider client={queryClient}>
+          <Router>
+            <div className="min-h-screen bg-background flex flex-col">
           <Header />
           <main className="flex-1">
             <Routes>
@@ -30,9 +62,11 @@ function App() {
             </Routes>
           </main>
           <Footer />
-        </div>
-      </Router>
-    </QueryClientProvider>
+            </div>
+          </Router>
+        </QueryClientProvider>
+      </div>
+    </>
   );
 }
 

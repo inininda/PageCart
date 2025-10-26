@@ -1,0 +1,30 @@
+/* Book Loader CSS - Custom 3D animations not available in Tailwind */
+
+.book-loader-perspective {
+  perspective: 160px;
+  transform-style: preserve-3d;
+  margin-left: 40px;
+}
+
+.book-paper-origin {
+  transform-origin: 0% 50%;
+}
+
+.book-paper-flipped {
+}
+
+.book-paper-animated {
+  animation: flip 2.5s infinite ease-in-out;
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  30% {
+    transform: rotateY(-180deg);
+  }
+  100% {
+    transform: rotateY(-180deg);
+  }
+}
